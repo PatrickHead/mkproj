@@ -4,6 +4,26 @@
 
 ### Utility functions
 
+usage()
+{
+  cat << EOF
+
+  USAGE: $0 [--author=<author's name>] \\
+            [--project=<project name>] \\
+            [--version=<project version>] \\
+            [--email=<contact email>]
+
+  Defaults:  author='AUTHOR'
+             project='PROJECT'
+             version='0.1.0'
+             email='maintainer@example.com'
+
+  NOTE:  A sub-directory named <project name> will be created in the current
+         directory.
+
+EOF
+}
+
 make_main_config()
 {
   tmp="$1"
@@ -3988,7 +4008,7 @@ dir_list='tools include src tests doc doc/reference-manual'
 
   ### Process command line options
 
-if !  options=$(getopt -o '' -l author:,project:,version:,email: -- $@)
+if !  options=$(getopt -o 'h' -l author:,project:,version:,email:,help -- $@)
 then
   exit 1
 fi
@@ -4002,6 +4022,7 @@ do
     --project) shift; project="$1" ;;
     --version) shift; version="$1" ;;
     --email) shift; email="$1" ;;
+    --help) usage; break ;;
     --) shift; break ;;
     --*) "$0: ERROR - Unrecognize command '$1' 1>&2; exit 1 ;;
     -*) "$0: ERROR - Unrecognize command '$1' 1>&2; exit 1 ;;
